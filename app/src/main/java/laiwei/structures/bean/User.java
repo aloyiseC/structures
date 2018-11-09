@@ -6,6 +6,7 @@ package laiwei.structures.bean;
 public class User {
     String name;
     int id;
+    String password;
 
     public String getName() {
         return name;
@@ -21,5 +22,13 @@ public class User {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

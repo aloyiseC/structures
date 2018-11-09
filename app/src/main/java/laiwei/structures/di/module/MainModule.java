@@ -7,6 +7,9 @@ import laiwei.structures.biz.impl.MainBizImpl;
 import laiwei.structures.di.scope.ActivityScope;
 import laiwei.structures.ivew.IMainView;
 import laiwei.structures.presenter.MainPresenter;
+import laiwei.structures.repository.AccountRepository;
+import laiwei.structures.retrofit.converter.StructrueConverterFactory;
+import retrofit2.Retrofit;
 
 /**
  * Created by laiwei on 2018/11/7 0007.
@@ -32,7 +35,7 @@ public class MainModule {
 
     @ActivityScope
     @Provides
-    public IMainBiz provideIMainBiz(){
-        return new MainBizImpl();
+    public IMainBiz provideIMainBiz(AccountRepository accountRepository){
+        return new MainBizImpl(accountRepository);
     }
 }

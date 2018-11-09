@@ -1,5 +1,6 @@
 package laiwei.structures.presenter;
 
+import laiwei.structures.bean.User;
 import laiwei.structures.biz.IMainBiz;
 import laiwei.structures.ivew.IMainView;
 
@@ -16,8 +17,8 @@ public class MainPresenter {
         this.iMainView = iMainView;
     }
 
-    public void login(){
+    public void login(User user){
         iMainView.showLoading();
-        iMainBiz.login(null);
+        iMainBiz.login(user);
     }
 }
