@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity implements IMainView{
         findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mainPresenter.login();
+                //mainPresenter.login();
             }
         });
     }

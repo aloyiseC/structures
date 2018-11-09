@@ -2,6 +2,7 @@ package laiwei.structures.biz.impl;
 
 import laiwei.structures.bean.User;
 import laiwei.structures.biz.IMainBiz;
+import laiwei.structures.presenter.OnLoginListener;
 import laiwei.structures.repository.AccountRepository;
 import laiwei.structures.retrofit.converter.StructrueConverterFactory;
 import retrofit2.Retrofit;
@@ -18,7 +19,7 @@ public class MainBizImpl implements IMainBiz{
     }
 
     @Override
-    public void login(User user) {
+    public void login(User user, OnLoginListener onLoginListener) {
 
     }
 

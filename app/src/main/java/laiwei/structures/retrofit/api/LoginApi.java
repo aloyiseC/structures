@@ -1,5 +1,7 @@
 package laiwei.structures.retrofit.api;
 
+import io.reactivex.Observable;
+import laiwei.structures.retrofit.bean.HttpResult;
 import retrofit2.http.Field;
 import retrofit2.http.POST;
 
@@ -8,5 +10,5 @@ import retrofit2.http.POST;
  */
 public interface LoginApi {
     @POST("ssl/login.do")
-    void login(@Field("userName")String userName,@Field("dPassword")String pwd);
+    Observable<HttpResult> login(@Field("userName")String userName, @Field("dPassword")String pwd);
 }

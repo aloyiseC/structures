@@ -1,6 +1,10 @@
 package laiwei.structures.repository;
 
+import laiwei.structures.bean.User;
+import laiwei.structures.presenter.OnLoginListener;
+import laiwei.structures.retrofit.api.LoginApi;
 import laiwei.structures.retrofit.converter.StructrueConverterFactory;
+import laiwei.structures.rx.RxUtils;
 import retrofit2.Retrofit;
 
 /**
@@ -10,9 +14,27 @@ public class AccountRepository {
 
     private static final String HTTPS = "";
     private Retrofit.Builder builder;
+    private StructrueConverterFactory structrueConverterFactory;
 
     public AccountRepository(Retrofit.Builder builder,StructrueConverterFactory structrueConverterFactory) {
-        this.builder = builder;
-        builder.addConverterFactory(structrueConverterFactory);
+        this.structrueConverterFactory = structrueConverterFactory;
+        this.builder = builder.addConverterFactory(structrueConverterFactory).baseUrl(HTTPS);
+    }
+
+    public void login(User user, OnLoginListener onLoginListener){
+        structrueConverterFactory.setTypeClazz(User.class);
+        RxUtils.rxLoad(builder.build().create(LoginApi.class).login(user.getName(), user.getPassword()),
+                new RxUtils.OnFinishListener<User>() {
+            @Override
+            public void onNext(User user) {
+                onLoginListener.onLoginSuccess();
+            }
+
+            @Override
+            public boolean onError(Throwable e) {
+                onLoginListener.onLoginFailed();
+                return false;
+            }
+        });
     }
 }

@@ -19,6 +19,18 @@ public class MainPresenter {
 
     public void login(User user){
         iMainView.showLoading();
-        iMainBiz.login(user);
+        iMainBiz.login(user, new OnLoginListener() {
+            @Override
+            public void onLoginSuccess() {
+                iMainView.hideLoading();
+                iMainView.loginSuccess();
+            }
+
+            @Override
+            public void onLoginFailed() {
+                iMainView.hideLoading();
+                iMainView.loginFailed();
+            }
+        });
     }
 }
