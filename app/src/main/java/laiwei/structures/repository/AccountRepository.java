@@ -8,8 +8,7 @@ import retrofit2.Retrofit;
  */
 public class AccountRepository {
 
-    //https://passport.tianya.cn/ssl/login.do
-    private static final String HTTPS = "https://passport.tianya.cn/";
+    private static final String HTTPS = "";
     private Retrofit.Builder builder;
 
     public AccountRepository(Retrofit.Builder builder,StructrueConverterFactory structrueConverterFactory) {
