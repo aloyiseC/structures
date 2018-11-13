@@ -22,8 +22,6 @@ public class RxUtils {
         boolean onError(Throwable e);
     }
 
-
-
     public static class HttpErrorException extends Exception implements Serializable {
         private HttpResult result;
 

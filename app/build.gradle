@@ -1,6 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'//lambda
 apply plugin: 'com.neenbedankt.android-apt'//dagger2
+apply plugin: MyPlugin
+apply plugin: 'com.laiwei.plugin-buildSrc'
 android {
     compileSdkVersion 26
     buildToolsVersion "26.0.2"
@@ -12,10 +14,22 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
+    signingConfigs{
+        config {
+            storeFile file(KEY_PATH) //keystore的位置
+            storePassword KEY_PASS //密码
+            keyAlias ALIAS_NAME //别名
+            keyPassword ALIAT_PASS //别名密码
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //打包签名的 apk
+            signingConfig signingConfigs.config
         }
     }
 
@@ -26,6 +40,13 @@ android {
     packagingOptions{
         exclude 'META-INF/rxjava.properties'
     }
+
+    //假定我们需要打包的渠道包括华为市场、360、小米、百度、豌豆荚 android {
+//    productFlavors {
+//        huawei { }
+//        xiaomi { }
+//    }  //可以批量修改打包渠道配置 android { productFlavors { huawei {} xiaomi {} qh360 {} baidu {} wandoujia {} } productFlavors.all { flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name] } }
+
 }
 
 dependencies {
@@ -51,4 +72,12 @@ dependencies {
     compile 'com.jakewharton:butterknife:6.1.0'//butterknife配置,使用Android Butterknife Zelezny插件，简化findViewById()和setonclicktListener()}
     compile 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
 
+}
+
+class MyPlugin implements Plugin<Project>{
+
+    @Override
+    void apply(Project target) {
+           println("build in "+target.buildDir)
+    }
 }

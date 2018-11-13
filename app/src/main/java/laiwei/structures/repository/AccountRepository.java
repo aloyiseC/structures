@@ -12,7 +12,7 @@ import retrofit2.Retrofit;
  */
 public class AccountRepository {
 
-    private static final String HTTPS = "";
+    private static final String HTTPS = "https://passport.tianya.cn/";
     private Retrofit.Builder builder;
     private StructrueConverterFactory structrueConverterFactory;
 
