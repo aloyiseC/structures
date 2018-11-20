@@ -17,8 +17,11 @@ public class MainPresenter {
         this.iMainView = iMainView;
     }
 
-    public void login(User user){
+    public void login(){
         iMainView.showLoading();
+        User user = new User();
+        user.setName(iMainView.getUserName());
+        user.setPassword(iMainView.getPwd());
         iMainBiz.login(user, new OnLoginListener() {
             @Override
             public void onLoginSuccess() {

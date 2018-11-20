@@ -1,8 +1,9 @@
 apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'//lambda
 apply plugin: 'com.neenbedankt.android-apt'//dagger2
-apply plugin: MyPlugin
 apply plugin: 'com.laiwei.plugin-buildSrc'
+apply plugin: 'com.jakewharton.butterknife'
+apply plugin: 'android-apt'// 为了butterknife引入apt
 android {
     compileSdkVersion 26
     buildToolsVersion "26.0.2"
@@ -35,7 +36,8 @@ android {
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8    }//lambda
+        targetCompatibility JavaVersion.VERSION_1_8
+    }//lambda
 
     packagingOptions{
         exclude 'META-INF/rxjava.properties'
@@ -72,12 +74,10 @@ dependencies {
     compile 'com.jakewharton:butterknife:6.1.0'//butterknife配置,使用Android Butterknife Zelezny插件，简化findViewById()和setonclicktListener()}
     compile 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
 
+    compile 'com.google.android.gms:play-services-appindexing:8.1.0'
+
+    compile 'com.jakewharton:butterknife:8.8.1'
+    //annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    apt 'com.jakewharton:butterknife-compiler:8.8.1'// 用apt 引入butterknife
 }
 
-class MyPlugin implements Plugin<Project>{
-
-    @Override
-    void apply(Project target) {
-           println("build in "+target.buildDir)
-    }
-}

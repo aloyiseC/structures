@@ -57,27 +57,48 @@ public class RxUtils {
     public static <T> DisposableObserver rxLoad(Observable obserable, final OnFinishListener<T> listener
     ){
 
+//        Observable ob = obserable
+//                .flatMap(new Function<T,Observable<T>>() {
+//                    @Override
+//                    public Observable<T> apply(final @NonNull T t) throws Exception {
+//
+//                        if(t instanceof HttpResult){
+//                            final HttpResult result = (HttpResult)t;
+//                            if (result.getSuccess() == HttpResult.SUCCESS && result.getCode() == HttpResult.CODE_SUCCESS) {
+//                                return Observable.create(new ObservableOnSubscribe<T>(){
+//                                    @Override
+//                                    public void subscribe(@NonNull ObservableEmitter<T> e) throws Exception {
+//                                        e.onNext((T) result.getData());
+//                                        e.onComplete();
+//                                    }
+//                                });
+//                            } else {
+//                                return Observable.error(new HttpErrorException(result));
+//                            }
+//                        }else{
+//                            return Observable.error(new HttpErrorException((HttpResult)t));
+//                        }
+//                    }
+//                })
+//                .subscribeOn(Schedulers.io());
         Observable ob = obserable
-                .flatMap(new Function<T,Observable<T>>() {
-                    @Override
-                    public Observable<T> apply(final @NonNull T t) throws Exception {
+                .flatMap((Function<T, Observable<T>>) t -> {
 
-                        if(t instanceof HttpResult){
-                            final HttpResult result = (HttpResult)t;
-                            if (result.getSuccess() == HttpResult.SUCCESS && result.getCode() == HttpResult.CODE_SUCCESS) {
-                                return Observable.create(new ObservableOnSubscribe<T>(){
-                                    @Override
-                                    public void subscribe(@NonNull ObservableEmitter<T> e) throws Exception {
-                                        e.onNext((T) result.getData());
-                                        e.onComplete();
-                                    }
-                                });
-                            } else {
-                                return Observable.error(new HttpErrorException(result));
-                            }
-                        }else{
-                            return Observable.error(new HttpErrorException((HttpResult)t));
+                    if(t instanceof HttpResult){
+                        final HttpResult result = (HttpResult)t;
+                        if (result.getSuccess() == HttpResult.SUCCESS && result.getCode() == HttpResult.CODE_SUCCESS) {
+                            return Observable.create(new ObservableOnSubscribe<T>(){
+                                @Override
+                                public void subscribe(@NonNull ObservableEmitter<T> e) throws Exception {
+                                    e.onNext((T) result.getData());
+                                    e.onComplete();
+                                }
+                            });
+                        } else {
+                            return Observable.error(new HttpErrorException(result));
                         }
+                    }else{
+                        return Observable.error(new HttpErrorException((HttpResult)t));
                     }
                 })
                 .subscribeOn(Schedulers.io());

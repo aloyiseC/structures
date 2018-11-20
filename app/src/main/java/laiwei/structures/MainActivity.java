@@ -1,40 +1,48 @@
 package laiwei.structures;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
+import butterknife.OnClick;
 import laiwei.structures.di.module.MainModule;
 import laiwei.structures.ivew.IMainView;
 import laiwei.structures.presenter.MainPresenter;
 
-public class MainActivity extends AppCompatActivity implements IMainView{
+public class MainActivity extends BaseActivity implements IMainView {
 
     @Inject
     MainPresenter mainPresenter;
+    @BindView(R.id.username)
+    EditText userNameEt;
+    @BindView(R.id.pwd)
+    EditText pwdEt;
 
+    @Override
+    public int getLayoutId() {
+        return R.layout.activity_main;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
         StructuresApplication.get(this).getAppComponent()
                 .addSub(new MainModule(this))
                 .inject(this);
-        findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //mainPresenter.login();
-            }
-        });
+    }
+
+    @OnClick(R.id.btn)
+    public void submit(View view){
+        mainPresenter.login();
     }
 
     @Override
     public void showLoading() {
-        Log.i("step","showLoading");
+        Log.i("step", "showLoading");
     }
 
     @Override
@@ -54,21 +62,22 @@ public class MainActivity extends AppCompatActivity implements IMainView{
 
     @Override
     public String getUserName() {
-        return null;
+        return userNameEt.getText().toString();
     }
 
     @Override
     public String getPwd() {
-        return null;
+        return pwdEt.getText().toString();
     }
 
     @Override
     public void clearUserName() {
-
+        userNameEt.setText("");
     }
 
     @Override
     public void clearPwd() {
-
+        pwdEt.setText("");
     }
+
 }
