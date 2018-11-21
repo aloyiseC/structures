@@ -1,5 +1,6 @@
 package laiwei.structures;
 
+import android.database.ContentObserver;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,6 +10,7 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import laiwei.structures.db.DatabaseContentProvider;
 import laiwei.structures.di.module.MainModule;
 import laiwei.structures.ivew.IMainView;
 import laiwei.structures.presenter.MainPresenter;
@@ -21,6 +23,8 @@ public class MainActivity extends BaseActivity implements IMainView {
     EditText userNameEt;
     @BindView(R.id.pwd)
     EditText pwdEt;
+    @Inject
+    ContentObserver contentObserver;
 
     @Override
     public int getLayoutId() {
@@ -33,6 +37,7 @@ public class MainActivity extends BaseActivity implements IMainView {
         StructuresApplication.get(this).getAppComponent()
                 .addSub(new MainModule(this))
                 .inject(this);
+        getContentResolver().registerContentObserver(DatabaseContentProvider.DATABASE_URI,true,contentObserver);
     }
 
     @OnClick(R.id.btn)

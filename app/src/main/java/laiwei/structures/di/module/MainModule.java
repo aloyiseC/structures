@@ -1,5 +1,9 @@
 package laiwei.structures.di.module;
 
+import android.database.ContentObserver;
+import android.os.Handler;
+import android.util.Log;
+
 import dagger.Module;
 import dagger.Provides;
 import laiwei.structures.biz.IMainBiz;
@@ -37,5 +41,16 @@ public class MainModule {
     @Provides
     public IMainBiz provideIMainBiz(AccountRepository accountRepository){
         return new MainBizImpl(accountRepository);
+    }
+
+    @ActivityScope
+    @Provides
+    public ContentObserver provideContentObserver(){
+        return new ContentObserver(new Handler()) {
+            @Override
+            public void onChange(boolean selfChange) {
+                Log.i("step","database changed");
+            }
+        };
     }
 }
